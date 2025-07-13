@@ -46,7 +46,7 @@ const formdata = ref({
     agreement: false,
 })
 const form = ref<FormInstance | null>(null)
-const isLogin = ref(true)
+const isLogin = ref(false)
 const rules = {
     username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },

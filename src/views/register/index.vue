@@ -30,7 +30,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { userStore as useUserStore } from '@/Store/user';
+import { userStore as useUserStore } from '@/Store/user/user';
 import { getLogin } from '@/apis/user';
 import { getReg } from '@/apis/user';
 import { useRouter } from 'vue-router';

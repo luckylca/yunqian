@@ -32,7 +32,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { userSettingStore } from '@/Store/setting';
+import { userSettingStore } from '@/Store/setting/setting';
 import { gsap } from "gsap";
 import { onMounted, ref } from 'vue';
 import { ScrollTrigger } from "gsap/ScrollTrigger";

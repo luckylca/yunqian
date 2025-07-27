@@ -9,10 +9,10 @@
     <div class="box" v-else @click="router.push('/introduce')">
         Robot Introduction
     </div>
-    <div class="box" v-if="userSetting.language === 'zh-CN'">
+    <div class="box" v-if="userSetting.language === 'zh-CN'"  @click="router.push('/join')">
         参加报名
     </div>
-    <div class="box" v-else>
+    <div class="box" v-else  @click="router.push('/join')">
         Join us
     </div>
     <div class="box" v-if="userSetting.language === 'zh-CN'" @click="router.push('/about')">

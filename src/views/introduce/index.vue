@@ -12,14 +12,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { ElTable, ElTableColumn } from 'element-plus';
-import { userSettingStore } from '@/Store/setting/setting';
+// import { userSettingStore } from '@/Store/setting/setting';
 import { articleStore } from '@/Store/articl/articl';
 import { marked, MarkedOptions } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
 const markdownContent = ref('')
 
-const userSetting = userSettingStore();
+// const userSetting = userSettingStore();
 const article = articleStore();
 const currentIndex = ref(0);
 

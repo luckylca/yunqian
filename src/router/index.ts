@@ -4,6 +4,7 @@ import Register from '../views/register/index.vue'
 import Layout from '../views/layout/index.vue'
 import About from '../views/about/index.vue'
 import Introduce from '../views/introduce/index.vue'
+import Join from '../views/join/index.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -32,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/introduce',
     name: 'Introduce',
     component: Introduce
+  }
+  ,
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
   }
 ]
 

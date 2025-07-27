@@ -32,13 +32,13 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { userSettingStore } from '@/Store/setting/setting';
+// import { userSettingStore } from '@/Store/setting/setting';
 import { gsap } from "gsap";
 import { onMounted, ref } from 'vue';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-const userSetting = userSettingStore();
+// const userSetting = userSettingStore();
 const distance = ref(0);
 const isLeave = ref(false);
 onMounted(() => {

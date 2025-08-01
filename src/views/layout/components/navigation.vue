@@ -62,7 +62,7 @@ const router = useRouter();
     display: flex;
     flex-direction: row;
     height: 50px;
-    width: 100%;
+    width: 100vw;
     background-color: black;
     justify-content: space-between;
     // align-items: center;

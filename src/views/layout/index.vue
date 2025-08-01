@@ -1,4 +1,5 @@
 <template>
+    <div style="width: 100vw;">
     <div class="videoContainer">
         <video autoplay muted loop class="background-video" style="width: 100%">
             <source src="https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1752397060274_qdqqd_b90u0l.mp4"
@@ -29,6 +30,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 <script lang="ts" setup>

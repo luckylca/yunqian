@@ -73,7 +73,7 @@ const friendLinks: FriendLink[] = [
     background-color: #2c3e50;
     color: #ecf0f1;
     margin-top: auto;
-    
+    width: 100%;
     .footer-content {
         max-width: 1200px;
         margin: 0 auto;

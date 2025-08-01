@@ -1,12 +1,19 @@
 import axios from 'axios';
-
+import imgApi from '@/apis/api';
 
 
 export const instance = axios.create({
     baseURL: '',// Base URL can be set here if needed
     timeout: 1000,
 });
-
+export const imgInstance = axios.create({
+    baseURL: 'https://freeimage.host/api/1/upload',
+    timeout: 1000,
+    headers: {
+        'key': imgApi.imgApiKey,
+        'action': 'upload',
+    }
+});
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么

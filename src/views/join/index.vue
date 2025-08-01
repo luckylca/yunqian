@@ -1,100 +1,96 @@
 <template>
-<div class="container">
-    <div class="nameContainer">
-        <div class="name">姓名</div>
-        <el-input v-model="form.name" placeholder="请输入姓名" style="width: 100px;height: 40px;"></el-input>
-    </div>
-    <div class="genderContainer">
-        <div class="gender">性别</div>
-        <el-radio-group v-model="form.gender" class="ml-4">
-            <el-radio value="1" size="large">男</el-radio>
-            <el-radio value="0" size="large">女</el-radio>
-        </el-radio-group>
-    </div>
-    <div class="collegeContainer">
-        <div class="college">学院</div>
-        <el-select
-            v-model="form.college"
-            placeholder="Select"
-            size="large"
-            style="width: 240px"
-        >
-            <el-option
-                v-for="item in collegeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            />
-        </el-select>
-    </div>
-    <div class="classContainer">
-        <div class="class">班级</div>
-        <el-input v-model="form.class" placeholder="请输入班级" style="width: 200px;height: 40px;" maxlength="20"></el-input>
-    </div>
-    <div class="groupContainer">
-        <div class="group">组别</div>
-        <el-select
-            v-model="form.group"
-            placeholder="Select"
-            size="large"
-            style="width: 240px"
-        >
-            <el-option
-                v-for="item in groupOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            />
-        </el-select>
-    </div>
-    <div class="telephoneContainer">
-        <div class="telephone">电话</div>
-        <el-input v-model="form.telephone" placeholder="请输入电话" type="number" maxlength="11" style="width: 200px;height: 40px;"></el-input>
-    </div>
-    <div class="qqContainer">
-        <div class="qq">QQ</div>
-        <el-input v-model="form.qq" placeholder="请输入QQ" type="number" maxlength="10" style="width: 200px;height: 40px;"></el-input>
-    </div>
-    <div class="interestContainer">
-        <div class="interest">兴趣</div>
-        <el-input v-model="form.interest" placeholder="请输入兴趣" type="textarea" :rows="4"></el-input>
-    </div>
-    <div class="knowContainer">
-        <div class="know">对RM已有的认识</div>
-        <el-input v-model="form.know" placeholder="对该比赛有何看法" type="textarea" :rows="4"></el-input>
-    </div>
-    <div class="wantContainer">
-        <div class="want">工作设想</div>
-        <el-input v-model="form.want" placeholder="希望在比赛中有何收获" type="textarea" :rows="4"></el-input>
-    </div>
-    <div class="experienceContainer">
-        <div class="experience">实践经验</div>
-        <el-input v-model="form.experience" placeholder="有无竞赛经历、动手能力、编程基础等" type="textarea" :rows="4"></el-input>
-    </div>
-    <el-upload
-        class="upload-demo"
-        drag
-        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-        multiple
-    >
-        <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-        <div class="el-upload__text">
-        Drop file here or <em>click to upload</em>
+    <div class="container">
+        <div class="nameContainer">
+            <div class="name">姓名<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-input v-model="form.name" placeholder="请输入姓名" style="width: 100px;height: 40px;"></el-input>
         </div>
-        <template #tip>
-        <div class="el-upload__tip">
-            jpg/png files with a size less than 500kb
+        <div class="genderContainer">
+            <div class="gender">性别<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-radio-group v-model="form.gender" class="ml-4">
+                <el-radio value="1" size="large">男</el-radio>
+                <el-radio value="0" size="large">女</el-radio>
+            </el-radio-group>
         </div>
-        </template>
-    </el-upload>
-    <el-button type="primary" style="width: 100px;margin:auto">提交</el-button>
-</div>
+        <div class="collegeContainer">
+            <div class="college">学院<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-select v-model="form.college" placeholder="Select" size="large" style="width: 240px">
+                <el-option v-for="item in collegeOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+        </div>
+        <div class="classContainer">
+            <div class="class">班级<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-input v-model="form.class" placeholder="请输入班级" style="width: 200px;height: 40px;"
+                maxlength="20"></el-input>
+        </div>
+        <div class="groupContainer">
+            <div class="group">组别<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-select v-model="form.group" placeholder="Select" size="large" style="width: 240px">
+                <el-option v-for="item in groupOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+        </div>
+        <div class="telephoneContainer">
+            <div class="telephone">电话<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-input v-model="form.telephone" placeholder="请输入电话" type="number" maxlength="11"
+                style="width: 200px;height: 40px;"></el-input>
+        </div>
+        <div class="qqContainer">
+            <div class="qq">QQ<span style="color: red; margin-left: 3px;">*</span></div>
+            <el-input v-model="form.qq" placeholder="请输入QQ" type="number" maxlength="10"
+                style="width: 200px;height: 40px;"></el-input>
+        </div>
+        <div class="interestContainer">
+            <div class="interest">兴趣</div>
+            <el-input v-model="form.interest" placeholder="请输入兴趣" type="textarea" :rows="4"></el-input>
+        </div>
+        <div class="knowContainer">
+            <div class="know">对RM已有的认识</div>
+            <el-input v-model="form.know" placeholder="对该比赛有何看法" type="textarea" :rows="4"></el-input>
+        </div>
+        <div class="wantContainer">
+            <div class="want">工作设想</div>
+            <el-input v-model="form.want" placeholder="希望在比赛中有何收获" type="textarea" :rows="4"></el-input>
+        </div>
+        <div class="experienceContainer">
+            <div class="experience">实践经验</div>
+            <el-input v-model="form.experience" placeholder="有无竞赛经历、动手能力、编程基础等" type="textarea" :rows="4"></el-input>
+        </div>
+        <el-upload class="upload-demo" drag :http-request="customUpload" :before-upload="beforeUpload" multiple>
+            <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+            <div class="el-upload__text">
+                拖到这里或者 <em>点击上传</em>
+            </div>
+            <template #tip>
+                <div class="el-upload__tip">
+                    支持 JPG/PNG/GIF/WebP 格式，文件大小限制为 10MB
+                </div>
+            </template>
+        </el-upload>
+        <el-button type="primary" style="width: 100px;margin:auto" @click="formDataInspect">提交</el-button>
+        <el-dialog v-model="dialogVisible" title="提示信息" width="500">
+            <span>确认提交吗</span>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false; submitForm()">
+                        提交
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { init, send } from '@emailjs/browser';
+import mailApi from '@/apis/api';
+import { userStore } from '@/Store/user/user';
+import { ElMessage } from 'element-plus';
 // import { userSettingStore } from '@/Store/setting/setting';
 // import { onMounted } from 'vue';
+const user = userStore();
+const dialogVisible = ref(false);
+const updataResult = ref(null);
 const form = ref({
     name: '',
     gender: '',
@@ -106,7 +102,9 @@ const form = ref({
     interest: '',
     know: '',
     want: '',
-    experience: ''
+    experience: '',
+    date: '',
+    state: ''
 });
 const collegeOptions = ref([
     { value: '0', label: '计算机学院' },
@@ -116,16 +114,87 @@ const collegeOptions = ref([
     { value: '4', label: '经济管理学院' }
 ]);
 const groupOptions = ref([
-    { value: '0', label: '电控组' },
-    { value: '1', label: '视觉组' },
-    { value: '2', label: '机械组' },
-    { value: '3', label: '硬件组' },
-    { value: '4', label: '宣传组' }
+    { value: '0', label: '电控组', email: '3462014130@qq.com' },
+    { value: '1', label: '视觉组', email: '3462014130@qq.com' },
+    { value: '2', label: '机械组', email: '3462014130@qq.com' },
+    { value: '3', label: '硬件组', email: '3462014130@qq.com' },
+    { value: '4', label: '宣传组', email: '3462014130@qq.com' }
 ]);
+init(mailApi.mailApiKey);
+// const beforeUpload = (file) => {
+//     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+//     const isValidType = validTypes.includes(file.type);
+
+//     if (!isValidType) {
+//         ElMessage.error('仅支持 JPG、PNG、GIF 和 WebP 格式图片');
+//         return false;
+//     }
+
+//     const isValidSize = file.size / 1024 / 1024 < 20; // 20MB 限制
+//     if (!isValidSize) {
+//         ElMessage.error('图片大小不能超过 20MB');
+//         return false;
+//     }
+
+//     return true;
+// };
+const mailOptions = ref({
+    to: "3462014130@qq.com",
+    title: "新报名信息",
+    message: "新报名信息已提交，请查看详情。",
+    time: new Date().toLocaleString(),
+    name: "111"
+});
+async function sendEmail() {
+    try {
+        const response = await send(mailApi.service_id, mailApi.template_id, mailOptions.value);
+        console.log('Email sent successfully:', response);
+    } catch (error) {
+        console.error('Failed to send email:', error);
+    }
+}
+
+async function formDataInspect() {
+    if (!form.value.name || !form.value.telephone || !form.value.qq || !form.value.group || !form.value.college || !form.value.class) {
+        ElMessage.error('请填写必填项');
+        return;
+    }
+    const lastItem = user.signUpList.slice(-1)[0];
+    const currentDate = new Date();
+    if (user.signUpList.length >= 0 && lastItem != null && currentDate.getTime() - new Date(lastItem.date).getTime() < 60 * 60 * 24) {
+        ElMessage.error('报名时间间隔过短，请明天再试');
+        return;
+    }
+    dialogVisible.value = true;
+}
+const submitForm = async () => {
+    user.updateSignUpList(form.value);
+    ElMessage({
+        message: '报名表提交成功',
+        type: 'success'
+    });
+    form.value.date = new Date().toLocaleString();
+    form.value.state = '待审核';
+    mailOptions.value.name = form.value.name;
+    mailOptions.value.to = groupOptions.value[0].email; // 默认发送到第一个组的邮箱
+    mailOptions.value.message = `姓名: ${form.value.name}\n
+    电话: ${form.value.telephone}\n
+    QQ: ${form.value.qq}\n
+    兴趣: ${form.value.interest}\n
+    对RM已有的认识: ${form.value.know}\n
+    工作设想: ${form.value.want}\n
+    实践经验: ${form.value.experience}\n
+    报名时间: ${form.value.date}\n
+    状态: ${form.value.state}`;
+    mailOptions.value.title = `RM报名信息 - ${groupOptions.value[0].label} - ${form.value.name}`;
+    sendEmail();
+    console.log('Form submitted:', form.value);
+};
+
 
 </script>
 
-<style lang="scss" scoped> 
+<style lang="scss" scoped>
 .container {
     display: flex;
     flex-direction: column;
@@ -133,94 +202,114 @@ const groupOptions = ref([
     padding-left: 20vw;
     padding-right: 20vw;
 }
-.nameContainer{
+
+.nameContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .name {
         width: 170px;
     }
 }
-.genderContainer{
+
+.genderContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .gender {
         width: 180px;
     }
 }
-.collegeContainer{
+
+.collegeContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .college {
         width: 170px;
     }
 }
-.classContainer{
+
+.classContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .class {
         width: 170px;
     }
 }
 
-.groupContainer{
+.groupContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .group {
         width: 170px;
     }
 }
-.telephoneContainer{
+
+.telephoneContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .telephone {
         width: 170px;
     }
 }
-.qqContainer{
+
+.qqContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .qq {
         width: 170px;
     }
 }
-.interestContainer{
+
+.interestContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .interest {
         width: 200px;
     }
 }
-.knowContainer{
+
+.knowContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .know {
         width: 200px;
     }
 }
-.wantContainer{
+
+.wantContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .want {
         width: 200px;
     }
 }
-.experienceContainer{
+
+.experienceContainer {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     .experience {
         width: 200px;
     }
 }
-
 </style>

@@ -1,6 +1,22 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+interface SignUpData {
+    name: string,
+    gender: string,
+    college: string,
+    class: string,
+    group: string,
+    telephone: string,
+    qq: string,
+    interest: string,
+    know: string,
+    want: string,
+    experience: string,
+    date: string,
+    state: string
+}
+
 export const userStore = defineStore('user', () => {
     const userdata = ref({
         account: '',
@@ -8,6 +24,10 @@ export const userStore = defineStore('user', () => {
         token: '',
     })
     const ifLogin = ref(false)
+    const signUpList = ref<SignUpData[]>([])
+    async function updateSignUpList(signUpData: SignUpData) {
+        signUpList.value.push(signUpData)
+    }
     async function login(account: string, password: string, token: string) {
         userdata.value.account = account
         userdata.value.password = password
@@ -25,6 +45,6 @@ export const userStore = defineStore('user', () => {
             token: ''
         }
     }
-    return { login, register, userdata, logout, ifLogin }
+    return { login, register, userdata, logout, ifLogin, signUpList, updateSignUpList }
 
 }, { persist: true })

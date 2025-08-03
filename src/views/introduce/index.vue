@@ -30,11 +30,13 @@ const rowStyle = () => {
 };
 const handleCurrentChange = (data: { name: string; decl: string; index: number }) => {
     currentIndex.value = data.index;
+    getMarkdownContent();
     console.log('当前选中行:', data);
 };
 async function getMarkdownContent() {
-    // const link = `article/introduce${currentIndex.value}.md`;
-    const link = 'article/test.md';
+    const link = `article/introduce${currentIndex.value}.md`;
+    console.log(link);
+    // const link = 'article/test.md';
     const response = await fetch(link);
     const text = await response.text();
     marked.setOptions({

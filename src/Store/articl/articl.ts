@@ -9,8 +9,15 @@ export const articleStore = defineStore('article', ()=>{
         {name: '侦查机器人', decl: '侦查机器人用于侦查敌情，具有隐蔽性。',index: 3},
         {name: '英雄', decl: '英雄单位具有特殊能力，是战斗中的关键。',index: 4},
     ]);
-
+    const groupOptions = ref([
+        { value: '0', label: '电控组', email: '3462014130@qq.com' },
+        { value: '1', label: '视觉组', email: '3462014130@qq.com' },
+        { value: '2', label: '机械组', email: '3462014130@qq.com' },
+        { value: '3', label: '硬件组', email: '3462014130@qq.com' },
+        { value: '4', label: '宣传组', email: '3462014130@qq.com' }
+    ]);
     return {
-        tableData
+        tableData,
+        groupOptions
     }
 });

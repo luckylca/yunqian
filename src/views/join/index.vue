@@ -25,7 +25,7 @@
         <div class="groupContainer">
             <div class="group">组别<span style="color: red; margin-left: 3px;">*</span></div>
             <el-select v-model="form.group" placeholder="Select" size="large" style="width: 240px">
-                <el-option v-for="item in groupOptions" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option v-for="item in article.groupOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
         </div>
         <div class="telephoneContainer">
@@ -82,15 +82,19 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { init, send } from '@emailjs/browser';
+import { send } from '@emailjs/browser';
 import mailApi from '@/apis/api';
 import { userStore } from '@/Store/user/user';
+import { articleStore } from '@/Store/articl/articl';
 import { ElMessage } from 'element-plus';
+import type { UploadRawFile, UploadRequestOptions } from 'element-plus';
+import {uploadImage} from '@/apis/user';
 // import { userSettingStore } from '@/Store/setting/setting';
 // import { onMounted } from 'vue';
 const user = userStore();
+const article = articleStore();
 const dialogVisible = ref(false);
-const updataResult = ref(null);
+const updataResult = ref<string[]>([]);
 const form = ref({
     name: '',
     gender: '',
@@ -113,31 +117,32 @@ const collegeOptions = ref([
     { value: '3', label: '土木工程学院' },
     { value: '4', label: '经济管理学院' }
 ]);
-const groupOptions = ref([
-    { value: '0', label: '电控组', email: '3462014130@qq.com' },
-    { value: '1', label: '视觉组', email: '3462014130@qq.com' },
-    { value: '2', label: '机械组', email: '3462014130@qq.com' },
-    { value: '3', label: '硬件组', email: '3462014130@qq.com' },
-    { value: '4', label: '宣传组', email: '3462014130@qq.com' }
-]);
-init(mailApi.mailApiKey);
-// const beforeUpload = (file) => {
-//     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-//     const isValidType = validTypes.includes(file.type);
 
-//     if (!isValidType) {
-//         ElMessage.error('仅支持 JPG、PNG、GIF 和 WebP 格式图片');
-//         return false;
-//     }
+const beforeUpload = (file: UploadRawFile) => {
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const isValidType = validTypes.includes(file.type);
+    if (!isValidType) {
+        ElMessage.error('仅支持 JPG、PNG、GIF 和 WebP 格式图片');
+        return false;
+    }
+    const isValidSize = file.size / 1024 / 1024 < 20; // 20MB 限制
+    if (!isValidSize) {
+        ElMessage.error('图片大小不能超过 20MB');
+        return false;
+    }
+    return true;
+};
+const customUpload = (options: UploadRequestOptions) => {
+    const fileToUpload = options.file;
+    uploadImage(fileToUpload as File).then((response) => {
+        console.log(response);
+        updataResult.value.push(`1`);
+    }).catch((error) => {
+        console.error('Upload error:', error);
+        ElMessage.error('图片上传失败，请重试');
+    });
 
-//     const isValidSize = file.size / 1024 / 1024 < 20; // 20MB 限制
-//     if (!isValidSize) {
-//         ElMessage.error('图片大小不能超过 20MB');
-//         return false;
-//     }
-
-//     return true;
-// };
+};
 const mailOptions = ref({
     to: "3462014130@qq.com",
     title: "新报名信息",
@@ -176,7 +181,7 @@ const submitForm = async () => {
     form.value.date = new Date().toLocaleString();
     form.value.state = '待审核';
     mailOptions.value.name = form.value.name;
-    mailOptions.value.to = groupOptions.value[0].email; // 默认发送到第一个组的邮箱
+    mailOptions.value.to = article.groupOptions[0].email; // 默认发送到第一个组的邮箱
     mailOptions.value.message = `姓名: ${form.value.name}\n
     电话: ${form.value.telephone}\n
     QQ: ${form.value.qq}\n
@@ -186,7 +191,7 @@ const submitForm = async () => {
     实践经验: ${form.value.experience}\n
     报名时间: ${form.value.date}\n
     状态: ${form.value.state}`;
-    mailOptions.value.title = `RM报名信息 - ${groupOptions.value[0].label} - ${form.value.name}`;
+    mailOptions.value.title = `RM报名信息 - ${article.groupOptions[0].label} - ${form.value.name}`;
     sendEmail();
     console.log('Form submitted:', form.value);
 };

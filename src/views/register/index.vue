@@ -7,7 +7,7 @@
                 <el-form ref="form" :model="formdata" :rules="rules" label-width="80px" class="login-form"
                     :inline="true">
                     <el-form-item label="用户名" prop="username">
-                        <el-input v-model="formdata.username" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="formdata.username" placeholder="(建议使用QQ号)"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
                         <el-input v-model="formdata.password" type="password" placeholder="请输入密码"></el-input>

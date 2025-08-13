@@ -13,7 +13,7 @@
 import { onMounted, ref } from 'vue';
 import { ElTable, ElTableColumn } from 'element-plus';
 // import { userSettingStore } from '@/Store/setting/setting';
-import { articleStore } from '@/Store/articl/articl';
+import { articleStore } from '@/Store/article/article';
 import { marked, MarkedOptions } from 'marked'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'

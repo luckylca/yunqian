@@ -85,7 +85,7 @@ import { ref } from 'vue';
 import { send } from '@emailjs/browser';
 import mailApi from '@/apis/api';
 import { userStore } from '@/Store/user/user';
-import { articleStore } from '@/Store/articl/articl';
+import { articleStore } from '@/Store/article/article';
 import { ElMessage } from 'element-plus';
 import type { UploadRawFile, UploadRequestOptions } from 'element-plus';
 import {uploadImage} from '@/apis/user';
@@ -150,9 +150,14 @@ const mailOptions = ref({
     time: new Date().toLocaleString(),
     name: "111"
 });
+function getRandom012(): number {
+    return Math.floor(Math.random() * 3);
+}
 async function sendEmail() {
     try {
-        const response = await send(mailApi.service_id, mailApi.template_id, mailOptions.value);
+        // const randomIndex = getRandom012();
+        const randomIndex = 0; // For testing, use a fixed index
+        const response = await send(mailApi.service_id[randomIndex], mailApi.template_id[randomIndex], mailOptions.value);
         console.log('Email sent successfully:', response);
     } catch (error) {
         console.error('Failed to send email:', error);

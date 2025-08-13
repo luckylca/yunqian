@@ -6,10 +6,10 @@ export const instance = axios.create({
     baseURL: '',// Base URL can be set here if needed
     timeout: 1000,
 });
-export const imgInstance = axios.create({
-    baseURL: 'https://freeimage.host/api/1/upload',
-    timeout: 30000,
-});
+// export const imgInstance = axios.create({
+//     baseURL: 'https://freeimage.host/api/1/upload',
+//     timeout: 30000,
+// });
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么

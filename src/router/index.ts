@@ -6,6 +6,7 @@ import About from '../views/about/index.vue'
 import Introduce from '../views/introduce/index.vue'
 import Join from '../views/join/index.vue'
 import My from '../views/my/index.vue'
+import Administrator from '../views/administrator/index.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -45,6 +46,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/my',
     name: 'My',
     component: My
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Administrator
   }
 ]
 

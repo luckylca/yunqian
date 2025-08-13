@@ -9,7 +9,7 @@
     <div class="box" v-else @click="router.push('/introduce')">
         Robot Introduction
     </div>
-    <div class="box" v-if="userSetting.language === 'zh-CN'"  @click="router.push('/join')">
+    <div class="box" v-if="userSetting.language === 'zh-CN'"  @click="joinUs">
         参加报名
     </div>
     <div class="box" v-else  @click="router.push('/join')">
@@ -49,11 +49,18 @@ import { userSettingStore } from '@/Store/setting/setting';
 import { onMounted } from 'vue';
 import { userStore } from '@/Store/user/user';
 import { useRouter } from 'vue-router';
-
+import { ElMessage } from 'element-plus';
 const userSetting = userSettingStore();
 const user = userStore();
 const router = useRouter();
-
+function joinUs() {
+    if (user.ifLogin) {
+        router.push('/join');
+    } else {
+        router.push('/login');
+        ElMessage('请先登录或者注册账号')
+    }
+}
 </script>
 
 <style scoped lang="scss">

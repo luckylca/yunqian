@@ -23,7 +23,7 @@ export const userStore = defineStore('user', () => {
         password: '',
         token: '',
     })
-    const ifLogin = ref(false)
+    const ifLogin = ref(true)
     const signUpList = ref<SignUpData[]>([])
     async function updateSignUpList(signUpData: SignUpData) {
         signUpList.value.push(signUpData)
@@ -44,6 +44,7 @@ export const userStore = defineStore('user', () => {
             password: '',
             token: ''
         }
+        ifLogin.value = false
     }
     return { login, register, userdata, logout, ifLogin, signUpList, updateSignUpList }
 

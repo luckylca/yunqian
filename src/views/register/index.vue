@@ -14,7 +14,7 @@
                     </el-form-item>
                     <br />
                     <el-form-item label="协议" prop="agreement">
-                        <el-checkbox v-model="formdata.agreement" class="agreementtext">我同意隐私条款和服务协议</el-checkbox>
+                        <el-checkbox v-model="formdata.agreement" class="agreementText">我同意隐私条款和服务协议</el-checkbox>
                     </el-form-item>
                 </el-form>
             </div>
@@ -82,29 +82,22 @@ const loginClick = async () => {
             })
             const res = await getLogin(formdata.value.username, formdata.value.password)
 
-            if (res.data.code == 200) {
-                await userStore.login(formdata.value.username, formdata.value.password, res.data.token)
+            if (res.data.status == 200) {
+                await userStore.login(formdata.value.username, formdata.value.password, res.data.token, res.data.name)
                 loadingInstance.close()
                 ElMessage({
                     type: 'success',
-                    message: '登录成功',
+                    message: '注册成功',
                     duration: 2000
                 })
+                userStore.ifLogin = true
                 router.replace({ path: '/' })
             }
-            else if (res.data.code == 404) {
+            else if (res.data.status == 404) {
                 loadingInstance.close()
                 ElMessage({
                     type: 'error',
-                    message: '登录失败，用户不存在，请先注册',
-                    duration: 2000
-                })
-            }
-            else if (res.data.code == 401) {
-                loadingInstance.close()
-                ElMessage({
-                    type: 'error',
-                    message: '登录失败，密码错误',
+                    message: '注册失败，该用户名已存在',
                     duration: 2000
                 })
             }
@@ -130,8 +123,8 @@ const registerClick = () => {
         if (valid) {
             const res = await getReg(formdata.value.username, formdata.value.password)
             console.log(res)
-            if (res.data.code == 200) {
-                userStore.register(formdata.value.username, formdata.value.password, res.data.token)
+            if (res.data.status == 200) {
+                userStore.register(formdata.value.username, formdata.value.password, res.data.token,res.data.name)
                 ElMessage({
                     type: 'success',
                     message: '注册成功',
@@ -175,7 +168,7 @@ const registerClick = () => {
     z-index: 1;
 }
 
-.agreementtext {
+.agreementText {
     padding: 0 10px;
     /* Corrected syntax for padding */
 }

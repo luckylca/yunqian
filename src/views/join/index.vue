@@ -108,14 +108,24 @@ const form = ref({
     want: '',
     experience: '',
     date: '',
+    imgUrls: [] as string[],
     state: ''
 });
 const collegeOptions = ref([
     { value: '0', label: '计算机学院' },
-    { value: '1', label: '电气工程学院' },
-    { value: '2', label: '机械工程学院' },
-    { value: '3', label: '土木工程学院' },
-    { value: '4', label: '经济管理学院' }
+    { value: '1', label: '电气学院' },
+    { value: '2', label: '汽机学院' },
+    { value: '3', label: '土木学院' },
+    { value: '4', label: '经管学院' },
+    { value: '5', label: '文新学院' },
+    { value: '6', label: '法学院' },
+    { value: '7', label: '外语学院' },
+    { value: '8', label: '交通学院' },
+    { value: '9', label: '数统学院' },
+    { value: '10', label: '航空工程学院' },
+    { value: '11', label: '物电学院' },
+    { value: '12', label: '建筑学院' },
+    { value: '13', label: '化工学院' },
 ]);
 
 const beforeUpload = (file: UploadRawFile) => {
@@ -135,8 +145,9 @@ const beforeUpload = (file: UploadRawFile) => {
 const customUpload = (options: UploadRequestOptions) => {
     const fileToUpload = options.file;
     uploadImage(fileToUpload as File).then((response) => {
-        console.log(response);
-        updataResult.value.push(`1`);
+        console.log(response.data.image.display_url);
+        form.value.imgUrls.push(response.data.image.display_url);
+        ElMessage.success('图片上传成功');
     }).catch((error) => {
         console.error('Upload error:', error);
         ElMessage.error('图片上传失败，请重试');
@@ -179,10 +190,6 @@ async function formDataInspect() {
 }
 const submitForm = async () => {
     user.updateSignUpList(form.value);
-    ElMessage({
-        message: '报名表提交成功',
-        type: 'success'
-    });
     form.value.date = new Date().toLocaleString();
     form.value.state = '待审核';
     mailOptions.value.name = form.value.name;
@@ -195,9 +202,14 @@ const submitForm = async () => {
     工作设想: ${form.value.want}\n
     实践经验: ${form.value.experience}\n
     报名时间: ${form.value.date}\n
-    状态: ${form.value.state}`;
+    状态: ${form.value.state}
+    附件: ${form.value.imgUrls.join(', ')}`;
     mailOptions.value.title = `RM报名信息 - ${article.groupOptions[0].label} - ${form.value.name}`;
     sendEmail();
+    ElMessage({
+        message: '报名表提交成功',
+        type: 'success'
+    });
     console.log('Form submitted:', form.value);
 };
 

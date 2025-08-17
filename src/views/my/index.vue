@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { userStore } from '@/Store/user/user';
-interface SignUpData {
+interface SignUpDataType {
     name: string,
     gender: string,
     college: string,
@@ -28,14 +28,15 @@ interface SignUpData {
     want: string,
     experience: string,
     date: string,
+    imgUrls: string[],
     state: string
 }
 const avatar = ref('');
 const user = userStore();
 // avatar.value = "http://q.qlogo.cn/headimg_dl?dst_uin=" + user.userdata.account + "&spec=640&img_type=jpg" // Replace with actual avatar URL
-avatar.value = "http://q.qlogo.cn/headimg_dl?dst_uin=" + "2777581179" + "&spec=640&img_type=jpg" // Replace with actual avatar URL
+avatar.value = "http://q.qlogo.cn/headimg_dl?dst_uin=" + user.userdata.account + "&spec=640&img_type=jpg" // Replace with actual avatar URL
 
-const tableData = ref<SignUpData[]>([]);
+const tableData = ref<SignUpDataType[]>([]);
 tableData.value = user.signUpList;
 </script>
 

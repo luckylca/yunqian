@@ -1,29 +1,38 @@
 <template>
     <div class="layout">
         <div class="login-container">
-            <div v-if="isLogin" class="mention">登录</div>
-            <div v-else class="mention">注册</div>
+            <div v-if="isLogin && userSetting.language==='zh-CN'" class="mention">登录</div>
+            <div v-if="isLogin && userSetting.language==='en-US'" class="mention">Login</div>
+            <div v-if="!isLogin && userSetting.language==='zh-CN'" class="mention">注册</div>
+            <div v-if="!isLogin && userSetting.language==='en-US'" class="mention">Register</div>
             <div class="form-container">
                 <el-form ref="form" :model="formdata" :rules="rules" label-width="80px" class="login-form"
                     :inline="true">
                     <el-form-item label="用户名" prop="username">
-                        <el-input v-model="formdata.username" placeholder="请输入用户名"></el-input>
+                        <el-input v-model="formdata.username" placeholder="请输入用户名" v-if="userSetting.language==='zh-CN'"></el-input>
+                        <el-input v-model="formdata.username" placeholder="Please enter username" v-else></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
-                        <el-input v-model="formdata.password" type="password" placeholder="请输入密码"></el-input>
+                        <el-input v-model="formdata.password" type="password" placeholder="请输入密码" v-if="userSetting.language==='zh-CN'"></el-input>
+                        <el-input v-model="formdata.username" placeholder="Please enter your username" v-if="userSetting.language==='en-US'"></el-input>
                     </el-form-item>
                     <br />
                     <el-form-item label="协议" prop="agreement">
-                        <el-checkbox v-model="formdata.agreement" class="agreementtext">我同意隐私条款和服务协议</el-checkbox>
+                        <el-checkbox v-model="formdata.agreement" class="agreementText" v-if="userSetting.language==='zh-CN'">我同意隐私条款和服务协议</el-checkbox>
+                        <el-checkbox v-model="formdata.agreement" class="agreementText" v-if="userSetting.language==='en-US'">I agree to the privacy policy and terms of service</el-checkbox>
                     </el-form-item>
                 </el-form>
             </div>
             <div class="but-container">
-                <div class="login-button" v-show="isLogin" @click="loginClick">登录</div>
-                <div class="login-button" v-show="!isLogin" @click="registerClick">注册</div>
+                <div class="login-button" v-show="isLogin" @click="loginClick" v-if="userSetting.language==='zh-CN'">登录</div>
+                <div class="login-button" v-show="isLogin" @click="loginClick" v-if="userSetting.language==='en-US'">Login</div>
+                <div class="login-button" v-show="!isLogin" @click="registerClick" v-if="userSetting.language==='zh-CN'">注册</div>
+                <div class="login-button" v-show="!isLogin" @click="registerClick" v-if="userSetting.language==='en-US'">Register</div>
             </div>
-            <div @click="changeMode" v-show="isLogin" style="font-size: 13px;margin-top: 10px;">如果未注册，请点击这里注册</div>
-            <div @click="changeMode" v-show="!isLogin" style="font-size: 13px;margin-top: 10px;">如果已注册，请点击这里登录</div>
+            <div @click="changeMode" v-show="isLogin" style="font-size: 13px;margin-top: 10px;" v-if="userSetting.language==='zh-CN'">如果未注册，请点击这里注册</div>
+            <div @click="changeMode" v-show="isLogin" style="font-size: 13px;margin-top: 10px;" v-if="userSetting.language==='en-US'">If you are not registered, please click here to register</div>
+            <div @click="changeMode" v-show="!isLogin" style="font-size: 13px;margin-top: 10px;" v-if="userSetting.language==='zh-CN'">如果已注册，请点击这里登录</div>
+            <div @click="changeMode" v-show="!isLogin" style="font-size: 13px;margin-top: 10px;" v-if="userSetting.language==='en-US'">If you are already registered, please click here to log in</div>
         </div>
     </div>
 
@@ -38,6 +47,8 @@ import { ElMessage } from 'element-plus'
 import type { FormInstance, FormItemRule } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElLoading } from 'element-plus'
+import { userSettingStore } from '@/Store/setting/setting';
+const userSetting = userSettingStore();
 const userStore = useUserStore();
 const router = useRouter();
 const formdata = ref({
@@ -87,18 +98,18 @@ const loginClick = async () => {
                 return;
             }
             const res = await getLogin(formdata.value.username, formdata.value.password)
-
-            if (res.data.code == 200) {
-                await userStore.login(formdata.value.username, formdata.value.password, res.data.token)
+            if (res.data.status == 200) {
+                await userStore.login(formdata.value.username, formdata.value.password, res.data.token, res.data.name)
                 loadingInstance.close()
                 ElMessage({
                     type: 'success',
                     message: '登录成功',
                     duration: 2000
                 })
+                userStore.ifLogin = true
                 router.replace({ path: '/' })
             }
-            else if (res.data.code == 404) {
+            else if (res.data.status == 201) {
                 loadingInstance.close()
                 ElMessage({
                     type: 'error',
@@ -106,7 +117,7 @@ const loginClick = async () => {
                     duration: 2000
                 })
             }
-            else if (res.data.code == 401) {
+            else if (res.data.status == 202) {
                 loadingInstance.close()
                 ElMessage({
                     type: 'error',
@@ -136,8 +147,8 @@ const registerClick = () => {
         if (valid) {
             const res = await getReg(formdata.value.username, formdata.value.password)
             console.log(res)
-            if (res.data.code == 200) {
-                userStore.register(formdata.value.username, formdata.value.password, res.data.token)
+            if (res.data.status == 200) {
+                userStore.register(formdata.value.username, formdata.value.password, res.data.token, res.data.name)
                 ElMessage({
                     type: 'success',
                     message: '注册成功',
@@ -181,7 +192,7 @@ const registerClick = () => {
     z-index: 1;
 }
 
-.agreementtext {
+.agreementText {
     padding: 0 10px;
     /* Corrected syntax for padding */
 }

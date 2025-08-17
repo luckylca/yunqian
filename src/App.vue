@@ -33,15 +33,14 @@ export default {
       autoRaf: true, // 让 Lenis 自动管理
     });
     
-    // 减少日志输出频率，避免性能问题
-    let lastLog = 0;
-    this.lenis.on('scroll', (e) => {
-      const now = Date.now();
-      if (now - lastLog > 100) { // 每100ms最多输出一次
-        console.log(e);
-        lastLog = now;
-      }
-    });
+    // // 减少日志输出频率，避免性能问题
+    // let lastLog = 0;
+    // this.lenis.on('scroll', () => {
+    //   const now = Date.now();
+    //   if (now - lastLog > 100) { // 每100ms最多输出一次
+    //     lastLog = now;
+    //   }
+    // });
   },
   beforeUnmount() {
     // 组件销毁时清理

@@ -1,7 +1,7 @@
 import { instance } from "@/utils/http";
 import imgApi from '@/apis/api';
 import axios from "axios";
-interface SignUpData {
+interface SignUpDataType {
     name: string,
     gender: string,
     college: string,
@@ -14,9 +14,18 @@ interface SignUpData {
     want: string,
     experience: string,
     date: string,
+    imgUrls: string[],
     state: string
 }
-
+interface GroupOptions {
+    value: string;
+    label: string;
+    email: string;
+}
+interface WebSettingsType {
+    groupOptions: GroupOptions[];
+    joinList: SignUpDataType[];
+}
 export const getLogin = async (account: string, password: string) => {
     return await instance.get('/login', {
         params: {
@@ -36,16 +45,27 @@ export const getReg = async (account: string, password: string) => {
 export const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append('source', file);
-    formData.append('action', 'upload');
-    formData.append('key', imgApi.imgApiKey);
-
-    return await axios.post('https://freeimage.host/api/1/upload', formData)
+    return await axios.post('http://localhost:3000/uploadImage', formData)
     // return await imgInstance.post('', formData);
 }
-export const uploadList = async (account: string, password: string, joinList: SignUpData[]) => {
+export const uploadList = async (token: string, joinList: SignUpDataType[]) => {
     return await instance.post('/uploadList', {
-        account,
-        password,
+        token,
         joinList
     });
+}
+export const getLists = async (token: string) => {
+    return await instance.get('/getList', {
+        params: {
+            token
+        }
+    });
+}
+
+export const getAdminWebData = async () => {
+    return await instance.get('/getAdminWebData');
+}
+
+export const updateAdminWebSetting = async (data: GroupOptions[]) => {
+    return await instance.post('/updateAdminWebSetting', data);
 }

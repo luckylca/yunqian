@@ -6,7 +6,7 @@
             <div class="form-container">
                 <el-form ref="form" :model="formdata" :rules="rules" label-width="80px" class="login-form"
                     :inline="true">
-                    <el-form-item label="用户名" prop="username">
+                    <el-form-item label="账号" prop="username">
                         <el-input v-model="formdata.username" placeholder="(建议使用QQ号)"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
@@ -38,6 +38,7 @@ import { ElMessage } from 'element-plus'
 import type { FormInstance, FormItemRule } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElLoading } from 'element-plus'
+import { getLists } from '@/apis/user';
 const userStore = useUserStore();
 const router = useRouter();
 const formdata = ref({
@@ -49,16 +50,13 @@ const form = ref<FormInstance | null>(null)
 const isLogin = ref(false)
 const rules = {
     username: [
-        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { required: true, message: '请输入账号', trigger: 'blur' },
         { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' },
     ],
     password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
         { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
     ],
-    // agreement: [
-    //   { required: true, message: '请勾选协议', trigger: 'change' },
-    // ],
     agreement: [
         {
             validator: (rule: FormItemRule, value: boolean, callback: (error?: Error) => void) => {
@@ -80,24 +78,42 @@ const loginClick = async () => {
                 spinner: 'el-icon-loading',
                 background: 'rgba(0, 0, 0, 0.7)'
             })
-            const res = await getLogin(formdata.value.username, formdata.value.password)
 
+            if(formdata.value.username == 'admin' && formdata.value.password == 'admin123'){
+                loadingInstance.close()
+                router.replace({ path: '/admin' })
+                return;
+            }
+            const res = await getLogin(formdata.value.username, formdata.value.password)
             if (res.data.status == 200) {
                 await userStore.login(formdata.value.username, formdata.value.password, res.data.token, res.data.name)
                 loadingInstance.close()
                 ElMessage({
                     type: 'success',
-                    message: '注册成功',
+                    message: '登录成功',
                     duration: 2000
+                })
+                getLists(res.data.token).then(async (res) => {
+                    if (res.data.status == 200) {
+                        userStore.signUpList = res.data.lists
+                    }
                 })
                 userStore.ifLogin = true
                 router.replace({ path: '/' })
             }
-            else if (res.data.status == 404) {
+            else if (res.data.status == 201) {
                 loadingInstance.close()
                 ElMessage({
                     type: 'error',
-                    message: '注册失败，该用户名已存在',
+                    message: '登录失败，用户不存在，请先注册',
+                    duration: 2000
+                })
+            }
+            else if (res.data.status == 202) {
+                loadingInstance.close()
+                ElMessage({
+                    type: 'error',
+                    message: '登录失败，密码错误',
                     duration: 2000
                 })
             }
@@ -116,6 +132,7 @@ const changeMode = () => {
     formdata.value.username = ''
     formdata.value.password = ''
     formdata.value.agreement = false
+    router.push('/login')
 }
 const registerClick = () => {
     if (!form.value) return;

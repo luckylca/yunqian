@@ -45,7 +45,7 @@ export const getReg = async (account: string, password: string) => {
 export const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append('source', file);
-    return await axios.post('http://www.luckyy.top/api/uploadImage', formData)
+    return await axios.post('https://www.luckyy.top/api/uploadImage', formData)
     // return await imgInstance.post('', formData);
 }
 export const uploadList = async (token: string, joinList: SignUpDataType[]) => {

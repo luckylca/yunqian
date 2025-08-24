@@ -8,9 +8,9 @@
             <div class="form-container">
                 <el-form ref="form" :model="formdata" :rules="rules" label-width="80px" class="login-form"
                     :inline="true">
-                    <el-form-item label="用户名" prop="username">
-                        <el-input v-model="formdata.username" placeholder="请输入用户名" v-if="userSetting.language==='zh-CN'"></el-input>
-                        <el-input v-model="formdata.username" placeholder="Please enter username" v-else></el-input>
+                    <el-form-item label="账号" prop="username">
+                        <el-input v-model="formdata.username" placeholder="请输入账号" v-if="userSetting.language==='zh-CN'"></el-input>
+                        <el-input v-model="formdata.username" placeholder="Please enter account" v-else></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
                         <el-input v-model="formdata.password" type="password" placeholder="请输入密码" v-if="userSetting.language==='zh-CN'"></el-input>
@@ -60,7 +60,7 @@ const form = ref<FormInstance | null>(null)
 const isLogin = ref(true)
 const rules = {
     username: [
-        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { required: true, message: '请输入账号', trigger: 'blur' },
         { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' },
     ],
     password: [
@@ -145,6 +145,7 @@ const changeMode = () => {
     formdata.value.username = ''
     formdata.value.password = ''
     formdata.value.agreement = false
+    router.push('/register')
 }
 const registerClick = () => {
     if (!form.value) return;
@@ -153,14 +154,16 @@ const registerClick = () => {
             const res = await getReg(formdata.value.username, formdata.value.password)
             console.log(res)
             if (res.data.status == 200) {
-                userStore.register(formdata.value.username, formdata.value.password, res.data.token, res.data.name)
+                userStore.register(formdata.value.username, formdata.value.password, res.data.token,res.data.name)
                 ElMessage({
                     type: 'success',
                     message: '注册成功',
                     duration: 2000
                 })
+                userStore.ifLogin = true
                 router.replace({ path: '/' })
-            } else {
+            }
+            else if (res.data.status == 201) {
                 ElMessage({
                     type: 'error',
                     message: '你的用户名重复了',

@@ -216,7 +216,7 @@ const submitForm = async () => {
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
     })
-    // await sendEmail();
+    await sendEmail();
     await user.updateSignUpList(form.value)
     await uploadList(user.userdata.token,user.signUpList)
     loadingInstance.close();

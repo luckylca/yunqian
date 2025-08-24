@@ -130,8 +130,10 @@ const registerClick = () => {
                     message: '注册成功',
                     duration: 2000
                 })
+                userStore.ifLogin = true
                 router.replace({ path: '/' })
-            } else {
+            }
+            else if (res.data.status == 201) {
                 ElMessage({
                     type: 'error',
                     message: '你的用户名重复了',

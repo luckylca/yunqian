@@ -49,6 +49,7 @@ export const userStore = defineStore('user', () => {
             token: '',
             name: ''
         }
+        signUpList.value = []
         ifLogin.value = false
     }
     return { login, register, userdata, logout, ifLogin, signUpList, updateSignUpList }

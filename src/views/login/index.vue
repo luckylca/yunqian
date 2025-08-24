@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { userStore as useUserStore } from '@/Store/user/user';
-import { getLogin } from '@/apis/user';
+import { getLists, getLogin } from '@/apis/user';
 import { getReg } from '@/apis/user';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus'
@@ -105,6 +105,11 @@ const loginClick = async () => {
                     type: 'success',
                     message: '登录成功',
                     duration: 2000
+                })
+                getLists(res.data.token).then(async (res) => {
+                    if (res.data.status == 200) {
+                        userStore.signUpList = res.data.lists
+                    }
                 })
                 userStore.ifLogin = true
                 router.replace({ path: '/' })

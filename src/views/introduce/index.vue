@@ -61,6 +61,10 @@ onMounted(() => {
     padding-right: 50px;
     padding-top: 20px;
     padding-bottom: 20px;
+    max-width: 1000px; // 或你希望的宽度
+    word-break: break-all;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
 }
 
 .tableContainer {

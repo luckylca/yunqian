@@ -25,7 +25,8 @@
         <div class="groupContainer">
             <div class="group">组别<span style="color: red; margin-left: 3px;">*</span></div>
             <el-select v-model="form.group" placeholder="Select" size="large" style="width: 240px">
-                <el-option v-for="item in article.groupOptions" :key="item.value" :label="item.label" :value="item.value" />
+                <el-option v-for="item in setting.WebSettings.groupOptions" :key="item.value" :label="item.label"
+                    :value="item.value" />
             </el-select>
         </div>
         <div class="telephoneContainer">
@@ -81,19 +82,23 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { send } from '@emailjs/browser';
 import mailApi from '@/apis/api';
 import { userStore } from '@/Store/user/user';
 import { articleStore } from '@/Store/article/article';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElLoading } from 'element-plus';
 import type { UploadRawFile, UploadRequestOptions } from 'element-plus';
-import {uploadImage} from '@/apis/user';
-// import { userSettingStore } from '@/Store/setting/setting';
-// import { onMounted } from 'vue';
+import { uploadImage } from '@/apis/user';
+import { init } from '@emailjs/browser';
+import { uploadList } from '@/apis/user';
+import { userSettingStore } from '@/Store/setting/setting';
+import router from '@/router';
+
 const user = userStore();
-const article = articleStore();
+// const article = articleStore();
 const dialogVisible = ref(false);
+const setting = userSettingStore();
 const updataResult = ref<string[]>([]);
 const form = ref({
     name: '',
@@ -182,18 +187,18 @@ async function formDataInspect() {
     }
     const lastItem = user.signUpList.slice(-1)[0];
     const currentDate = new Date();
-    if (user.signUpList.length >= 0 && lastItem != null && currentDate.getTime() - new Date(lastItem.date).getTime() < 60 * 60 * 24) {
-        ElMessage.error('报名时间间隔过短，请明天再试');
-        return;
-    }
+    // if (user.signUpList.length >= 0 && lastItem != null && currentDate.getTime() - new Date(lastItem.date).getTime() < 60 * 60 * 24) {
+    //     ElMessage.error('报名时间间隔过短，请明天再试');
+    //     return;
+    // }
     dialogVisible.value = true;
 }
 const submitForm = async () => {
-    user.updateSignUpList(form.value);
     form.value.date = new Date().toLocaleString();
     form.value.state = '待审核';
+    const groupNum = parseInt(form.value.group.split('-')[0], 10);
     mailOptions.value.name = form.value.name;
-    mailOptions.value.to = article.groupOptions[0].email; // 默认发送到第一个组的邮箱
+    mailOptions.value.to = setting.WebSettings.groupOptions[groupNum].email; 
     mailOptions.value.message = `姓名: ${form.value.name}\n
     电话: ${form.value.telephone}\n
     QQ: ${form.value.qq}\n
@@ -204,15 +209,30 @@ const submitForm = async () => {
     报名时间: ${form.value.date}\n
     状态: ${form.value.state}
     附件: ${form.value.imgUrls.join(', ')}`;
-    mailOptions.value.title = `RM报名信息 - ${article.groupOptions[0].label} - ${form.value.name}`;
-    sendEmail();
+    mailOptions.value.title = `RM报名信息 - ${setting.WebSettings.groupOptions[groupNum].label} - ${form.value.name}`;
+    const loadingInstance = ElLoading.service({
+        lock: true,
+        text: '加载中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+    })
+    // await sendEmail();
+    await user.updateSignUpList(form.value)
+    await uploadList(user.userdata.token,user.signUpList)
+    loadingInstance.close();
     ElMessage({
         message: '报名表提交成功',
         type: 'success'
     });
+    router.replace({ path: '/' });
     console.log('Form submitted:', form.value);
 };
 
+onMounted(() => {
+    init({
+        publicKey: mailApi.mailApiKey[0],
+    });
+});
 
 </script>
 

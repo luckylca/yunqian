@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const instance = axios.create({
     baseURL: 'http://localhost:3000',// Base URL can be set here if needed
-    timeout: 3000,
+    timeout: 5000,
 });
 
 // 添加请求拦截器

@@ -36,11 +36,11 @@ export const userSettingStore = defineStore('userSetting', ()=>{
     }
     const WebSettings = ref<WebSettingsType>({
         groupOptions: [
-            { value: '0', label: '电控组', email: '3462014130@qq.com' },
-            { value: '1', label: '视觉组', email: '3080832239@qq.com' },
-            { value: '2', label: '机械组', email: '3462014130@qq.com' },
-            { value: '3', label: '硬件组', email: '3080832239@qq.com' },
-            { value: '4', label: '宣传组', email: '3462014130@qq.com' }
+            { value: '0', label: '电控组', email: '443002340@qq.com' },
+            { value: '1', label: '视觉组', email: '3441613688@qq.com' },
+            { value: '2', label: '机械组', email: '3441613688@qq.com' },
+            { value: '3', label: '硬件组', email: '3441613688@qq.com' },
+            { value: '4', label: '宣传组', email: '3441613688@qq.com' }
         ],
         joinList: []
     });

@@ -17,10 +17,10 @@
                         <el-input v-model="formdata.username" placeholder="Please enter your username" v-if="userSetting.language==='en-US'"></el-input>
                     </el-form-item>
                     <br />
-                    <el-form-item label="协议" prop="agreement">
+                    <!-- <el-form-item label="协议" prop="agreement">
                         <el-checkbox v-model="formdata.agreement" class="agreementText" v-if="userSetting.language==='zh-CN'">我同意隐私条款和服务协议</el-checkbox>
                         <el-checkbox v-model="formdata.agreement" class="agreementText" v-if="userSetting.language==='en-US'">I agree to the privacy policy and terms of service</el-checkbox>
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-form>
             </div>
             <div class="but-container">
@@ -70,16 +70,16 @@ const rules = {
     // agreement: [
     //   { required: true, message: '请勾选协议', trigger: 'change' },
     // ],
-    agreement: [
-        {
-            validator: (rule: FormItemRule, value: boolean, callback: (error?: Error) => void) => {
-                if (!value) {
-                    return callback(new Error('请同意隐私条款和服务协议'))
-                }
-                callback()
-            }
-        }
-    ]
+    // agreement: [
+    //     {
+    //         validator: (rule: FormItemRule, value: boolean, callback: (error?: Error) => void) => {
+    //             if (!value) {
+    //                 return callback(new Error('请同意隐私条款和服务协议'))
+    //             }
+    //             callback()
+    //         }
+    //     }
+    // ]
 }
 const loginClick = async () => {
     if (!form.value) return;

@@ -13,9 +13,9 @@
                         <el-input v-model="formdata.password" type="password" placeholder="请输入密码"></el-input>
                     </el-form-item>
                     <br />
-                    <el-form-item label="协议" prop="agreement">
+                    <!-- <el-form-item label="协议" prop="agreement">
                         <el-checkbox v-model="formdata.agreement" class="agreementText">我同意隐私条款和服务协议</el-checkbox>
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-form>
             </div>
             <div class="but-container">
@@ -57,16 +57,16 @@ const rules = {
         { required: true, message: '请输入密码', trigger: 'blur' },
         { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' },
     ],
-    agreement: [
-        {
-            validator: (rule: FormItemRule, value: boolean, callback: (error?: Error) => void) => {
-                if (!value) {
-                    return callback(new Error('请同意隐私条款和服务协议'))
-                }
-                callback()
-            }
-        }
-    ]
+    // agreement: [
+    //     {
+    //         validator: (rule: FormItemRule, value: boolean, callback: (error?: Error) => void) => {
+    //             if (!value) {
+    //                 return callback(new Error('请同意隐私条款和服务协议'))
+    //             }
+    //             callback()
+    //         }
+    //     }
+    // ]
 }
 const loginClick = async () => {
     if (!form.value) return;
